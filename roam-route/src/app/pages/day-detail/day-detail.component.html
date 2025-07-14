@@ -1,0 +1,160 @@
+<div class="min-h-screen bg-gradient-to-br from-[#57574d] to-[#232321] flex items-center justify-center py-8 px-2">
+    <div class="bg-[#2d2d26] rounded-3xl p-10 w-full max-w-2xl flex flex-col gap-10 shadow-2xl border-4 border-[#e3e3e3]/10">
+
+        <div class="flex items-center gap-4 mb-4">
+            <svg class="h-10 w-10 text-[#d6cdbb]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 7h18M3 12h18M3 17h18"/>
+      </svg>
+            <h1 class="text-4xl font-extrabold text-[#d6cdbb] drop-shadow" style="font-family: 'Orbitron', sans-serif;">
+                Trip Days Details
+            </h1>
+        </div>
+
+
+        <form (ngSubmit)="addDay()" class="bg-gradient-to-r from-[#e3e3e3] to-[#d6cdbb] rounded-2xl shadow-lg p-8 flex flex-col gap-4 border-2 border-[#b7b5a5]/30" autocomplete="off">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block mb-1 text-xs font-semibold text-[#57574d]">Trip Name</label>
+                    <input [(ngModel)]="form.tripName" name="tripName" required class="w-full rounded-lg border-gray-300 px-3 py-2 focus:ring-2 focus:ring-[#b7b5a5]" placeholder="e.g. Golden Triangle Tour" />
+                </div>
+                <div>
+                    <label class="block mb-1 text-xs font-semibold text-[#57574d]">Description</label>
+                    <input [(ngModel)]="form.description" name="description" required class="w-full rounded-lg border-gray-300 px-3 py-2 focus:ring-2 focus:ring-[#b7b5a5]" placeholder="Short description" />
+                </div>
+                <div>
+                    <label class="block mb-1 text-xs font-semibold text-[#57574d]">Days</label>
+                    <input type="number" [(ngModel)]="form.days" name="days" required class="w-full rounded-lg border-gray-300 px-3 py-2 focus:ring-2 focus:ring-[#b7b5a5]" placeholder="e.g. 5" />
+                </div>
+                <div>
+                    <label class="block mb-1 text-xs font-semibold text-[#57574d]">Day #</label>
+                    <input type="number" [(ngModel)]="form.dayNumber" name="dayNumber" required class="w-full rounded-lg border-gray-300 px-3 py-2 focus:ring-2 focus:ring-[#b7b5a5]" placeholder="e.g. 1" />
+                </div>
+                <div>
+                    <label class="block mb-1 text-xs font-semibold text-[#57574d]">Date</label>
+                    <input type="date" [(ngModel)]="form.date" name="date" required class="w-full rounded-lg border-gray-300 px-3 py-2 focus:ring-2 focus:ring-[#b7b5a5]" />
+                </div>
+                <div>
+                    <label class="block mb-1 text-xs font-semibold text-[#57574d]">Places</label>
+                    <input [(ngModel)]="form.places" name="places" required class="w-full rounded-lg border-gray-300 px-3 py-2 focus:ring-2 focus:ring-[#b7b5a5]" placeholder="e.g. Agra, Delhi, Jaipur" />
+                </div>
+                <div>
+                    <label class="block mb-1 text-xs font-semibold text-[#57574d]">Expense (INR)</label>
+                    <input type="number" [(ngModel)]="form.expense" name="expense" required min="0" class="w-full rounded-lg border-gray-300 px-3 py-2 focus:ring-2 focus:ring-[#b7b5a5]" placeholder="e.g. 2500" />
+                </div>
+            </div>
+            <div class="flex gap-4 justify-end mt-4">
+                <button type="submit" class="bg-[#66645a] text-white px-8 py-2 rounded-lg hover:bg-[#57574d] transition font-bold shadow">
+          Add Day
+        </button>
+            </div>
+        </form>
+
+
+        <div *ngIf="pendingDays.length > 0" class="bg-gradient-to-r from-[#e3e3e3] to-[#d6cdbb] rounded-2xl shadow-lg p-6 border-2 border-[#b7b5a5]/30">
+            <h2 class="text-xl font-bold mb-4 text-[#45453e]">Days to be Added</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead>
+                        <tr class="bg-[#b7b5a5] text-[#45453e]">
+                            <th class="px-4 py-2 text-left">Trip Name</th>
+                            <th class="px-4 py-2 text-left">Description</th>
+                            <th class="px-4 py-2 text-left">Days</th>
+                            <th class="px-4 py-2 text-left">Day #</th>
+                            <th class="px-4 py-2 text-left">Date</th>
+                            <th class="px-4 py-2 text-left">Places</th>
+                            <th class="px-4 py-2 text-left">Expense</th>
+                            <th class="px-4 py-2 text-left">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of pendingDays; let i = index">
+                            <td class="px-4 py-2">{{ d.tripName }}</td>
+                            <td class="px-4 py-2">{{ d.description }}</td>
+                            <td class="px-4 py-2">{{ d.days }}</td>
+                            <td class="px-4 py-2">{{ d.dayNumber }}</td>
+                            <td class="px-4 py-2">{{ d.date }}</td>
+                            <td class="px-4 py-2">{{ d.places }}</td>
+                            <td class="px-4 py-2 font-bold text-green-700">₹{{ d.expense | number }}</td>
+                            <td class="px-4 py-2">
+                                <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" (click)="removePendingDay(i)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex gap-4 justify-end mt-4">
+                <button (click)="submitAllDays()" class="bg-green-600 text-white px-8 py-2 rounded-lg hover:bg-green-700 transition font-bold shadow">
+          Save
+        </button>
+            </div>
+        </div>
+
+
+        <div *ngIf="details.length > 0" class="flex flex-col gap-6">
+
+            <div class="flex flex-col items-center justify-center bg-gradient-to-r from-[#b7b5a5] to-[#e9ddc9] rounded-2xl shadow-lg p-6 border-2 border-[#b7b5a5]/30 mb-4">
+                <div class="flex items-center gap-4">
+                    <svg class="h-10 w-10 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 13c-4.418 0-8-3.582-8-8 0-2.21.895-4.21 2.343-5.657C7.79 5.895 9.79 5 12 5s4.21.895 5.657 2.343C19.105 7.79 20 9.79 20 12c0 4.418-3.582 8-8 8z"/>
+          </svg>
+                    <div>
+                        <div class="text-lg font-bold text-green-700">Total Trip Expense</div>
+                        <div class="text-2xl font-extrabold text-[#232321] tracking-wide">₹{{ totalExpense | number }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-[#e3e3e3] to-[#d6cdbb] rounded-2xl shadow-lg p-6 border-2 border-[#b7b5a5]/30">
+                <h2 class="text-xl font-bold mb-4 text-[#45453e]">Saved Days</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm">
+                        <thead>
+                            <tr class="bg-[#b7b5a5] text-[#45453e]">
+                                <th class="px-4 py-2 text-left">Trip Name</th>
+                                <th class="px-4 py-2 text-left">Description</th>
+                                <th class="px-4 py-2 text-left">Days</th>
+                                <th class="px-4 py-2 text-left">Day #</th>
+                                <th class="px-4 py-2 text-left">Date</th>
+                                <th class="px-4 py-2 text-left">Places</th>
+                                <th class="px-4 py-2 text-left">Expense</th>
+                                <th class="px-4 py-2 text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let d of details">
+                                <ng-container *ngIf="!editRow || editRow.id !== d.id; else editTemplate">
+                                    <td class="px-4 py-2">{{ d.tripName }}</td>
+                                    <td class="px-4 py-2">{{ d.description }}</td>
+                                    <td class="px-4 py-2">{{ d.days }}</td>
+                                    <td class="px-4 py-2">{{ d.dayNumber }}</td>
+                                    <td class="px-4 py-2">{{ d.date }}</td>
+                                    <td class="px-4 py-2">{{ d.places }}</td>
+                                    <td class="px-4 py-2 font-bold text-green-700">₹{{ d.expense | number }}</td>
+                                    <td class="px-4 py-2 flex gap-2">
+                                        <button class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600" (click)="startEdit(d)">Edit</button>
+                                        <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600" (click)="deleteDetail(d.id!)">Delete</button>
+                                    </td>
+                                </ng-container>
+                                <ng-template #editTemplate>
+                                    <td class="px-4 py-2"><input [(ngModel)]="editRow!.tripName" class="rounded px-2 py-1 border" /></td>
+                                    <td class="px-4 py-2"><input [(ngModel)]="editRow!.description" class="rounded px-2 py-1 border" /></td>
+                                    <td class="px-4 py-2"><input type="number" [(ngModel)]="editRow!.days" class="rounded px-2 py-1 border" /></td>
+                                    <td class="px-4 py-2"><input type="number" [(ngModel)]="editRow!.dayNumber" class="rounded px-2 py-1 border" /></td>
+                                    <td class="px-4 py-2"><input type="date" [(ngModel)]="editRow!.date" class="rounded px-2 py-1 border" /></td>
+                                    <td class="px-4 py-2"><input [(ngModel)]="editRow!.places" class="rounded px-2 py-1 border" /></td>
+                                    <td class="px-4 py-2"><input type="number" [(ngModel)]="editRow!.expense" class="rounded px-2 py-1 border" /></td>
+                                    <td class="px-4 py-2 flex gap-2">
+                                        <button class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600" (click)="saveEdit()">Save</button>
+                                        <button class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600" (click)="cancelEdit()">Cancel</button>
+                                    </td>
+                                </ng-template>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

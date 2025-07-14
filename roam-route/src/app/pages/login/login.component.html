@@ -1,0 +1,48 @@
+<header class="bg-[#0d0e07] text-white py-4 px-8 flex items-center justify-between">
+    <div class="text-3xl font-semibold tracking-widest">RR</div>
+    <div class="text-3xl font-light tracking-wide">Roam route</div>
+    <div class="flex items-center space-x-6">
+        <span class="uppercase text-sm">ENGLISH</span>
+        <a routerLink="/signup" class="font-bold text-sm">Sign up</a>
+    </div>
+</header>
+
+<div class="flex justify-center items-center min-h-screen bg-[#f2e3cb] relative overflow-hidden">
+    <div class="absolute bottom-0 right-0 w-full h-full bg-[#64705b] transform -skew-x-12 origin-bottom-right z-0"></div>
+
+    <div class="relative z-10 bg-[#f2e3cb] border border-black rounded-xl p-10 max-w-xl w-full">
+        <h2 class="text-3xl font-medium mb-8">Log in</h2>
+
+        <form #loginForm="ngForm" (ngSubmit)="submitLogin(loginForm)" class="space-y-6">
+            <div>
+                <label class="block mb-1 text-sm" for="username">Username</label>
+                <input id="username" name="username" type="text" required [(ngModel)]="formData.username" class="w-full border border-black rounded-md px-4 py-2 outline-none" />
+            </div>
+
+            <div>
+                <label class="block mb-1 text-sm" for="password">Password</label>
+                <input id="password" name="password" type="password" required [(ngModel)]="formData.password" class="w-full border border-black rounded-md px-4 py-2 outline-none" />
+                <div class="text-right text-xs text-red-500 mt-1">
+                    <a href="#">Forgot password?</a>
+                </div>
+            </div>
+
+            <div class="flex items-center">
+                <input id="remember" type="checkbox" class="mr-2 border border-black" />
+                <label for="remember" class="text-sm">Remember me</label>
+            </div>
+
+            <button type="submit" class="w-full bg-[#0d0e07] text-white py-2 rounded-md shadow-lg hover:shadow-xl transition">
+        Log in
+      </button>
+        </form>
+
+        <div class="mt-6 text-sm text-center">
+            Or sign up with
+            <div class="flex justify-center space-x-4 mt-2">
+                <button><img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-6 h-6" /></button>
+                <button><img src="https://www.svgrepo.com/show/452196/facebook-1.svg" class="w-6 h-6" /></button>
+            </div>
+        </div>
+    </div>
+</div>
